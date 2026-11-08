@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'primeicons/primeicons.css';
+
+:root {
+  --finora-receita: #5DCAA5;
+  --finora-despesa: #F09595;
+}
+
+html {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--p-surface-950);
+  color: var(--p-surface-50);
+}
+
+.valor {
+  font-variant-numeric: tabular-nums;
+}
+
+.valor-receita {
+  color: var(--finora-receita);
+}
+
+.valor-despesa {
+  color: var(--finora-despesa);
+}
