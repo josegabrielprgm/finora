@@ -1,21 +1,14 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { MAT_ICON_DEFAULT_OPTIONS } from '@angular/material/icon';
 import { provideRouter } from '@angular/router';
-import { providePrimeNG } from 'primeng/config';
 
 import { routes } from './app.routes';
-import { FinoraPreset } from './core/theme/finora.preset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    providePrimeNG({
-      theme: {
-        preset: FinoraPreset,
-        options: {
-          darkModeSelector: '.app-dark'
-        }
-      }
-    })
+    // Faz o <mat-icon> usar a fonte Material Symbols (carregada no index.html)
+    { provide: MAT_ICON_DEFAULT_OPTIONS, useValue: { fontSet: 'material-symbols-outlined' } }
   ]
 };

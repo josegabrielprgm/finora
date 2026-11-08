@@ -1,18 +1,70 @@
-@import 'primeicons/primeicons.css';
+@use '@angular/material' as mat;
+
+/**
+ * Tema "Escuro elegante" do Finora (Angular Material 3).
+ * Fundo azul-marinho, ações em âmbar.
+ * Todas as cores do app saem daqui: nunca use hex solto nos componentes.
+ */
 
 :root {
+  // Paleta de superfícies (azul-marinho), do mais claro ao mais escuro
+  --finora-surface-50: #E6F1FB;
+  --finora-surface-100: #C9DDF0;
+  --finora-surface-200: #A3C2E0;
+  --finora-surface-300: #85B7EB;
+  --finora-surface-400: #5A86B5;
+  --finora-surface-500: #3D6A99;
+  --finora-surface-600: #285380;
+  --finora-surface-700: #183F66;
+  --finora-surface-800: #0C3358;
+  --finora-surface-900: #062A4C;
+  --finora-surface-950: #031D36;
+
+  // Cores de domínio
   --finora-receita: #5DCAA5;
   --finora-despesa: #F09595;
 }
 
 html {
-  font-family: 'Inter', system-ui, sans-serif;
+  color-scheme: dark;
+
+  @include mat.theme((
+    color: (
+      theme-type: dark,
+      primary: mat.$orange-palette,
+      tertiary: mat.$yellow-palette,
+    ),
+    typography: Inter,
+    density: 0,
+  ));
+
+  // Troca as superfícies padrão do Material pelo azul-marinho do Finora
+  @include mat.theme-overrides((
+    primary: #FBBF24,
+    on-primary: #031D36,
+    surface: var(--finora-surface-950),
+    on-surface: var(--finora-surface-50),
+    on-surface-variant: var(--finora-surface-200),
+    surface-container-lowest: var(--finora-surface-950),
+    surface-container-low: var(--finora-surface-900),
+    surface-container: var(--finora-surface-900),
+    surface-container-high: var(--finora-surface-800),
+    surface-container-highest: var(--finora-surface-700),
+    outline: var(--finora-surface-500),
+    outline-variant: var(--finora-surface-700),
+  ));
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
   margin: 0;
-  background: var(--p-surface-950);
-  color: var(--p-surface-50);
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
 }
 
 .valor {
