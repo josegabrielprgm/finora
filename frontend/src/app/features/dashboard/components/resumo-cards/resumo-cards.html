@@ -1,0 +1,23 @@
+<mat-card appearance="outlined" class="card saldo">
+  <span class="rotulo">
+    <mat-icon>account_balance_wallet</mat-icon>
+    Saldo do mês
+  </span>
+  <strong class="valor">{{ resumo().saldo | currency: 'BRL' }}</strong>
+</mat-card>
+
+<mat-card appearance="outlined" class="card">
+  <span class="rotulo">
+    <mat-icon class="valor-receita">arrow_upward</mat-icon>
+    Receitas
+  </span>
+  <strong class="valor valor-receita">{{ resumo().receitas | currency: 'BRL' }}</strong>
+</mat-card>
+
+<mat-card appearance="outlined" class="card">
+  <span class="rotulo">
+    <mat-icon class="valor-despesa">arrow_downward</mat-icon>
+    Despesas
+  </span>
+  <strong class="valor valor-despesa">{{ resumo().despesas | currency: 'BRL' }}</strong>
+</mat-card>
