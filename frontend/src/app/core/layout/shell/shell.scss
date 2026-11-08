@@ -1,0 +1,107 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  background: var(--mat-sys-surface);
+}
+
+// ---------- Menu lateral (desktop) ----------
+
+.menu-lateral {
+  width: 240px;
+  background: var(--mat-sys-surface-container);
+  border-right: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 0;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px 12px;
+  box-sizing: border-box;
+}
+
+.logo {
+  padding: 0 12px 24px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--mat-sys-primary);
+}
+
+.itens {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1; // empurra o "Sair" para o rodapé
+}
+
+// Estilo comum aos links e ao botão "Sair" (o botão perde a aparência nativa)
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &:hover {
+    background: var(--mat-sys-surface-container-high);
+    color: var(--mat-sys-on-surface);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
+
+  &.ativo {
+    background: var(--mat-sys-surface-container-high);
+    color: var(--mat-sys-primary);
+  }
+}
+
+// ---------- Conteúdo ----------
+
+.conteudo {
+  background: var(--mat-sys-surface);
+
+  // Espaço para a barra inferior não cobrir o fim da página
+  &.com-barra-inferior {
+    padding-bottom: 64px;
+  }
+}
+
+// ---------- Barra inferior (celular) ----------
+
+.barra-inferior {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 10;
+  height: 64px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--mat-sys-surface-container);
+  border-top: 1px solid var(--mat-sys-outline-variant);
+
+  .item {
+    width: auto;
+    padding: 8px 20px;
+    border-radius: 16px;
+  }
+}
