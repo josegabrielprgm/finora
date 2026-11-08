@@ -53,6 +53,12 @@ html {
     outline: var(--finora-surface-500),
     outline-variant: var(--finora-surface-700),
   ));
+
+  // Cards "outlined" com o mesmo fundo do menu lateral, em todas as telas
+  @include mat.card-overrides((
+    outlined-container-color: var(--mat-sys-surface-container),
+    outlined-outline-color: var(--mat-sys-outline-variant),
+  ));
 }
 
 html,

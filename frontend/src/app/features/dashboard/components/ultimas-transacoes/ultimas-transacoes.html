@@ -1,0 +1,29 @@
+<mat-card appearance="outlined" class="card">
+  <div class="topo">
+    <h2>Últimas transações</h2>
+    <a matButton routerLink="/transacoes">Ver todas</a>
+  </div>
+
+  @if (transacoes().length) {
+    <ul class="lista">
+      @for (t of transacoes(); track t.id) {
+        <li class="linha">
+          <span class="icone">
+            <mat-icon>{{ t.categoria.icone }}</mat-icon>
+          </span>
+          <span class="texto">
+            <span class="descricao">{{ t.descricao }}</span>
+            <span class="detalhe">{{ t.categoria.nome }} · {{ t.data | date: 'dd/MM' }}</span>
+          </span>
+          @if (t.tipo === 'RECEITA') {
+            <span class="valor valor-receita">+ {{ t.valor | currency: 'BRL' }}</span>
+          } @else {
+            <span class="valor valor-despesa">− {{ t.valor | currency: 'BRL' }}</span>
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="vazio">Nenhuma transação neste mês.</p>
+  }
+</mat-card>

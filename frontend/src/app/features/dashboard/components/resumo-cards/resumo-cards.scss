@@ -1,0 +1,51 @@
+:host {
+  display: grid;
+  // Saldo um pouco mais largo: é o número principal da tela
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 16px;
+
+  // Celular: cards empilhados
+  @media (max-width: 599.98px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rotulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.valor {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+// Destaque do saldo: borda âmbar e número maior
+.saldo {
+  --mat-card-outlined-outline-color: var(--mat-sys-primary);
+
+  .rotulo mat-icon {
+    color: var(--mat-sys-primary);
+  }
+
+  .valor {
+    font-size: 2rem;
+  }
+}

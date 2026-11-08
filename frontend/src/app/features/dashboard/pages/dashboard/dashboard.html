@@ -1,0 +1,55 @@
+<main class="pagina">
+  <header class="cabecalho">
+    <div>
+      <h1>Olá, {{ primeiroNome() }}</h1>
+
+      <div class="seletor-mes">
+        <button matIconButton type="button" aria-label="Mês anterior" (click)="voltarMes()">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <!-- aria-live: o leitor de tela anuncia o novo mês ao clicar nas setas -->
+        <span class="mes" aria-live="polite">{{ mes() | date: "MMMM 'de' yyyy" }}</span>
+        <button matIconButton type="button" aria-label="Próximo mês" (click)="avancarMes()">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Link, não botão: ele navega. Único "filled" da tela -->
+    <a matButton="filled" routerLink="/transacoes">
+      <mat-icon matButtonIcon>add</mat-icon>
+      Nova transação
+    </a>
+  </header>
+
+  @if (carregando()) {
+    <div class="esqueleto" role="status" aria-label="Carregando dados do mês">
+      <div class="esqueleto-resumo">
+        <div class="bloco"></div>
+        <div class="bloco"></div>
+        <div class="bloco"></div>
+      </div>
+      <div class="grade">
+        <div class="bloco alto"></div>
+        <div class="bloco alto"></div>
+      </div>
+    </div>
+  } @else if (erro()) {
+    <section class="estado" role="alert">
+      <mat-icon>cloud_off</mat-icon>
+      <p>Não foi possível carregar os dados.</p>
+      <button matButton="outlined" type="button" (click)="recarregar()">Tentar novamente</button>
+    </section>
+  } @else if (vazio()) {
+    <section class="estado">
+      <mat-icon>receipt_long</mat-icon>
+      <p>Nenhuma transação em {{ mes() | date: "MMMM 'de' yyyy" }}.</p>
+    </section>
+  } @else {
+    <app-resumo-cards [resumo]="resumo()" />
+    <div class="grade">
+      <app-gastos-categoria [gastos]="gastos()" />
+      <app-ultimas-transacoes [transacoes]="ultimas()" />
+    </div>
+  }
+</main>
