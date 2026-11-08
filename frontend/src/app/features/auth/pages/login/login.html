@@ -1,9 +1,13 @@
-<main class="login">
+<main class="auth-pagina">
   <section class="cartao">
     <header>
       <h1>Finora</h1>
       <p>Entre para controlar suas finanças</p>
     </header>
+
+    @if (cadastroConcluido) {
+      <p class="sucesso" role="status">Conta criada! Entre com seu e-mail e senha.</p>
+    }
 
     <form [formGroup]="form" (ngSubmit)="entrar()" novalidate>
       <mat-form-field appearance="outline">
@@ -53,6 +57,7 @@
       </button>
     </form>
 
+    <p class="alternar">Não tem conta? <a routerLink="/cadastro">Cadastre-se</a></p>
     <p class="dica">Demo: demo&#64;finora.com / Senha&#64;123</p>
   </section>
 </main>

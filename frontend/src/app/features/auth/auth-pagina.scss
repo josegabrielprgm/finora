@@ -1,4 +1,6 @@
-.login {
+// Layout compartilhado das telas públicas de autenticação (login e cadastro)
+
+.auth-pagina {
   min-height: 100vh; // fallback para navegadores sem suporte a dvh
   min-height: 100dvh; // altura real visível no celular (desconta a barra de endereço)
   display: grid;
@@ -60,9 +62,35 @@ form {
   text-align: center;
 }
 
-.dica {
+.alternar {
   margin: 24px 0 0;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+
+  a {
+    color: var(--mat-sys-primary);
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+  }
+}
+
+.dica {
+  margin: 12px 0 0;
   font-size: 13px;
   text-align: center;
   color: var(--mat-sys-on-surface-variant);
+}
+
+.sucesso {
+  margin: 0 0 16px;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  color: var(--finora-receita);
+  background: color-mix(in srgb, var(--finora-receita) 12%, transparent);
 }

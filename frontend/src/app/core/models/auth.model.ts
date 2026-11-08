@@ -17,3 +17,9 @@ export interface RespostaLogin {
   accessToken: string;
   usuario: Usuario;
 }
+
+export interface DadosCadastro {
+  nome: string;
+  email: string;
+  senha: string;
+}

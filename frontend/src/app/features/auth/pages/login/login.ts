@@ -5,13 +5,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   imports: [
     ReactiveFormsModule,
+    RouterLink,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
@@ -19,12 +20,16 @@ import { AuthService } from '../../../../core/services/auth.service';
     MatProgressSpinnerModule,
   ],
   selector: 'app-login',
-  styleUrl: './login.scss',
+  styleUrl: '../../auth-pagina.scss',
   templateUrl: './login.html',
 })
 export class Login {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+
+  /** Veio da tela de cadastro com sucesso (/login?cadastro=sucesso). */
+  protected readonly cadastroConcluido =
+    inject(ActivatedRoute).snapshot.queryParamMap.get('cadastro') === 'sucesso';
 
   protected readonly form = inject(FormBuilder).nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
