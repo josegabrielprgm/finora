@@ -1,0 +1,52 @@
+<mat-sidenav-container class="container">
+  <!-- No celular o menu lateral fica fechado e some; a barra inferior assume a navegação -->
+  <mat-sidenav class="menu-lateral" mode="side" [opened]="!celular()" [disableClose]="true">
+    <nav class="menu" aria-label="Menu principal">
+      <span class="logo">Finora</span>
+
+      <ul class="itens">
+        @for (item of itens; track item.rota) {
+          <li>
+            <a
+              class="item"
+              [routerLink]="item.rota"
+              routerLinkActive="ativo"
+              ariaCurrentWhenActive="page"
+            >
+              <mat-icon>{{ item.icone }}</mat-icon>
+              <span>{{ item.rotulo }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+
+      <button class="item sair" type="button" (click)="sair()">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+      </button>
+    </nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="conteudo" [class.com-barra-inferior]="celular()">
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+@if (celular()) {
+  <nav class="barra-inferior" aria-label="Menu principal">
+    @for (item of itens; track item.rota) {
+      <a
+        class="item"
+        [routerLink]="item.rota"
+        routerLinkActive="ativo"
+        ariaCurrentWhenActive="page"
+        [attr.aria-label]="item.rotulo"
+      >
+        <mat-icon>{{ item.icone }}</mat-icon>
+      </a>
+    }
+    <button class="item sair" type="button" aria-label="Sair" (click)="sair()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </nav>
+}

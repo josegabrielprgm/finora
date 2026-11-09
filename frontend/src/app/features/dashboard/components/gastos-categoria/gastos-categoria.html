@@ -1,0 +1,32 @@
+<mat-card appearance="outlined" class="card">
+  <h2>Gastos por categoria</h2>
+
+  @if (gastos().length) {
+    <ul class="lista">
+      @for (gasto of gastos(); track gasto.categoria.id) {
+        <li class="linha">
+          <div class="cabecalho">
+            <span class="nome">
+              <mat-icon>{{ gasto.categoria.icone }}</mat-icon>
+              {{ gasto.categoria.nome }}
+            </span>
+            <span class="valor">{{ gasto.total | currency: 'BRL' }}</span>
+          </div>
+          <!-- role="meter": leitor de tela anuncia a fatia, já que a barra é só visual -->
+          <div
+            class="trilho"
+            role="meter"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [attr.aria-valuenow]="gasto.percentual"
+            [attr.aria-label]="gasto.categoria.nome + ': ' + gasto.percentual + '% das despesas'"
+          >
+            <div class="barra" [style.width.%]="gasto.percentual"></div>
+          </div>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="vazio">Nenhuma despesa neste mês.</p>
+  }
+</mat-card>

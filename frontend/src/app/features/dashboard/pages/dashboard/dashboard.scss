@@ -1,0 +1,120 @@
+.pagina {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (max-width: 599.98px) {
+    padding: 24px 16px;
+  }
+}
+
+// ---------- Cabeçalho ----------
+
+.cabecalho {
+  display: flex;
+  flex-wrap: wrap; // no celular o botão desce para baixo do título
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+
+  h1 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+}
+
+.seletor-mes {
+  display: flex;
+  align-items: center;
+  margin-left: -12px; // alinha o ícone da seta com o título
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.mes {
+  min-width: 150px;
+  text-align: center;
+  font-weight: 500;
+
+  // "novembro de 2026" → "Novembro de 2026" (capitalize deixaria "De" maiúsculo)
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+// ---------- Conteúdo ----------
+
+.grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 959.98px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.estado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+  }
+
+  p {
+    margin: 0 0 8px;
+  }
+}
+
+// ---------- Skeleton ----------
+
+.esqueleto {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.esqueleto-resumo {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 599.98px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bloco {
+  height: 104px;
+  border-radius: 12px;
+  background: var(--mat-sys-surface-container-high);
+  animation: pulsar 1.2s ease-in-out infinite;
+
+  &.alto {
+    height: 280px;
+  }
+}
+
+@keyframes pulsar {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Respeita quem pediu ao sistema para reduzir animações
+@media (prefers-reduced-motion: reduce) {
+  .bloco {
+    animation: none;
+  }
+}
