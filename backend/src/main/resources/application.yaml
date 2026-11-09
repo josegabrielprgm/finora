@@ -7,6 +7,8 @@ spring:
     # até a renderização da resposta. Evita lazy loading escondido (N+1)
     # fora da camada de serviço e conexões presas ao banco por mais tempo.
     open-in-view: false
+    hibernate:
+      ddl-auto: validate
 
   docker:
     compose:
