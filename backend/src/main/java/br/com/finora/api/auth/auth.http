@@ -8,7 +8,7 @@ Content-Type: application/json
   "senha": "SenhaForte123"
 }
 
-### Senha curta (esperado: 400)
+### Senha curta (esperado: 400 com o campo "senha")
 POST http://localhost:8080/api/auth/cadastro
 Content-Type: application/json
 
@@ -18,7 +18,17 @@ Content-Type: application/json
   "senha": "12345"
 }
 
-### E-mail repetido (esperado por enquanto: 500; na Parte 4 vira 409)
+### Vários campos inválidos (esperado: 400 com nome, email e senha)
+POST http://localhost:8080/api/auth/cadastro
+Content-Type: application/json
+
+{
+  "nome": "",
+  "email": "isso-nao-e-email",
+  "senha": ""
+}
+
+### E-mail repetido, em maiúsculas (esperado: 409)
 POST http://localhost:8080/api/auth/cadastro
 Content-Type: application/json
 
@@ -27,3 +37,11 @@ Content-Type: application/json
   "email": "JOSE@finora.com",
   "senha": "OutraSenha123"
 }
+
+### JSON malformado (esperado: 400)
+POST http://localhost:8080/api/auth/cadastro
+Content-Type: application/json
+
+{
+  "nome": "Teste",
+  "email":
