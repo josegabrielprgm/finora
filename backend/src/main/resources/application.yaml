@@ -1,3 +1,16 @@
 spring:
   application:
     name: api
+
+  jpa:
+    # Desliga o Open Session in View: a sessão do Hibernate não fica aberta
+    # até a renderização da resposta. Evita lazy loading escondido (N+1)
+    # fora da camada de serviço e conexões presas ao banco por mais tempo.
+    open-in-view: false
+
+  docker:
+    compose:
+      skip:
+        # Sobe o compose.yaml também nos testes (o contexto precisa do PostgreSQL).
+        # Exige o Docker Desktop aberto para rodar ".\mvnw test".
+        in-tests: false

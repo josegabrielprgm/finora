@@ -12,7 +12,7 @@
 <artifactId>api</artifactId>
 <version>0.0.1-SNAPSHOT</version>
 <name>finora-api</name>
-<description>API do Finora: controle financeiro pessoal com autenticaÃ§Ã£o segura</description>
+<description>API do Finora: controle financeiro pessoal com autenticação segura</description>
 
 <properties>
 	<java.version>21</java.version>
