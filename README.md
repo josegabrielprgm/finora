@@ -9,7 +9,7 @@ Registre receitas e despesas, organize por categorias e acompanhe seu saldo, com
 ![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F?logo=springboot&logoColor=white)
 ![Spring Security](https://img.shields.io/badge/Spring_Security-JWT-6DB33F?logo=springsecurity&logoColor=white)
-![Angular](https://img.shields.io/badge/Angular-PrimeNG-DD0031?logo=angular)
+![Angular](https://img.shields.io/badge/Angular-Material-DD0031?logo=angular)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
 ![Status](https://img.shields.io/badge/status-em_desenvolvimento-yellow)
 
@@ -61,7 +61,7 @@ O projeto também segue práticas de times profissionais: fluxo de branches, com
 
 ```mermaid
 flowchart LR
-    U[Usuário] --> F[Angular + PrimeNG]
+    U[Usuário] --> F[Angular + Material]
     F -- "HTTPS + JWT" --> B[API Spring Boot]
     B --> S[Spring Security]
     S --> D[(PostgreSQL)]
