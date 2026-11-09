@@ -3,9 +3,9 @@ package br.com.finora.api.usuario.service;
 import br.com.finora.api.usuario.entity.Usuario;
 import br.com.finora.api.usuario.exception.EmailJaCadastradoException;
 import br.com.finora.api.usuario.repository.UsuarioRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
 
@@ -22,12 +22,12 @@ public class UsuarioService {
 
     @Transactional
     public Usuario cadastrar(String nome, String email, String senha){
-        String emailf = email.trim().toLowerCase(Locale.ROOT);
+        String emailNormalizado = email.trim().toLowerCase(Locale.ROOT);
         if (repository.existsByEmail(emailf)){
             throw new EmailJaCadastradoException();
         }
-        String senhahash = passwordEncoder.encode(senha);
-        Usuario saved = repository.save(new Usuario(nome.trim(), emailf, senhahash));
-        return saved;
+        String senhaHash = passwordEncoder.encode(senha);
+        Usuario usuarioSalvo  = repository.save(new Usuario(nome.trim(), emailf, senhahash));
+        return usuarioSalvo;
     }
 }
