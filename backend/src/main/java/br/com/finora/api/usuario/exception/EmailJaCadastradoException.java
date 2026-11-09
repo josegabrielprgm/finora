@@ -1,9 +1,12 @@
 package br.com.finora.api.usuario.exception;
 
-public class EmailJaCadastradoException extends RuntimeException{
+import br.com.finora.api.shared.exception.NegocioException;
+import org.springframework.http.HttpStatus;
+
+public class EmailJaCadastradoException extends NegocioException {
 
     public EmailJaCadastradoException() {
-        super("Este e-mail já está cadastrado.");
+        super(HttpStatus.CONFLICT, "Este e-mail já está cadastrado.");
 
     }
 }
