@@ -23,11 +23,11 @@ public class UsuarioService {
     @Transactional
     public Usuario cadastrar(String nome, String email, String senha){
         String emailNormalizado = email.trim().toLowerCase(Locale.ROOT);
-        if (repository.existsByEmail(emailf)){
+        if (repository.existsByEmail(emailNormalizado)){
             throw new EmailJaCadastradoException();
         }
         String senhaHash = passwordEncoder.encode(senha);
-        Usuario usuarioSalvo  = repository.save(new Usuario(nome.trim(), emailf, senhahash));
+        Usuario usuarioSalvo  = repository.save(new Usuario(nome.trim(), emailNormalizado, senhaHash));
         return usuarioSalvo;
     }
 }
