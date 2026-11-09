@@ -10,7 +10,6 @@ import { TransacaoService } from '../../../../core/services/transacao.service';
 import { deslocarMes, Mes, mesDe } from '../../../../shared/utils/mes';
 import { GastosCategoria } from '../../components/gastos-categoria/gastos-categoria';
 import { ResumoCards } from '../../components/resumo-cards/resumo-cards';
-import { SaudacaoSamara } from '../../components/saudacao-samara/saudacao-samara';
 import { UltimasTransacoes } from '../../components/ultimas-transacoes/ultimas-transacoes';
 import { agruparGastosPorCategoria, calcularResumo, ultimasTransacoes } from '../../dashboard.calculos';
 
@@ -19,7 +18,7 @@ import { agruparGastosPorCategoria, calcularResumo, ultimasTransacoes } from '..
  * os componentes filhos só exibem o que recebem por input.
  */
 @Component({
-  imports: [DatePipe, RouterLink, MatButtonModule, MatIconModule, ResumoCards, GastosCategoria, UltimasTransacoes, SaudacaoSamara],
+  imports: [DatePipe, RouterLink, MatButtonModule, MatIconModule, ResumoCards, GastosCategoria, UltimasTransacoes],
   selector: 'app-dashboard',
   styleUrl: './dashboard.scss',
   templateUrl: './dashboard.html',
