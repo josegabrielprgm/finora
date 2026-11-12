@@ -61,20 +61,27 @@ public class TratadorGlobalErros extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ProblemDetail tratarIntegridadeDados(DataIntegrityViolationException excecao) {
-        return ProblemDetail.forStatusAndDetail(
+        log.warn("Conflito de integridade nos dados: {}", excecao.getMostSpecificCause().getMessage());
+
+        ProblemDetail problema = ProblemDetail.forStatusAndDetail(
                 HttpStatus.CONFLICT,
                 "Não foi possível concluir a operação devido a um conflito nos dados."
         );
+
+        return problema;
+
     }
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail tratarErroGenerico(Exception excecao) {
-        log.error("Erro interno não tratado: ", excecao);
+        log.error("Erro interno não tratado ", excecao);
 
-        return ProblemDetail.forStatusAndDetail(
+        ProblemDetail problema = ProblemDetail.forStatusAndDetail(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Ocorreu um erro interno no servidor."
         );
+
+        return problema;
     }
 
 }
