@@ -38,7 +38,7 @@ Content-Type: application/json
   "senha": "OutraSenha123"
 }
 
-### Login válido (esperado: 200 com accessToken)
+### Login válido (esperado: 200 com accessToken; guarda o token para os próximos testes)
 POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
@@ -46,6 +46,10 @@ Content-Type: application/json
   "email": "jose@finora.com",
   "senha": "SenhaForte123"
 }
+
+> {%
+    client.global.set("token", response.body.accessToken);
+%}
 
 ### Login com senha errada (esperado: 401)
 POST http://localhost:8080/api/auth/login
@@ -65,6 +69,17 @@ Content-Type: application/json
   "senha": "SenhaForte123"
 }
 
+### Meus dados com token (esperado: 200) - rode o "Login válido" antes
+GET http://localhost:8080/api/usuarios/eu
+Authorization: Bearer {{token}}
+
+### Meus dados sem token (esperado: 401)
+GET http://localhost:8080/api/usuarios/eu
+
+### Meus dados com token adulterado (esperado: 401)
+GET http://localhost:8080/api/usuarios/eu
+Authorization: Bearer {{token}}x
+
 ### JSON malformado (esperado: 400)
 POST http://localhost:8080/api/auth/cadastro
 Content-Type: application/json
@@ -72,4 +87,3 @@ Content-Type: application/json
 {
   "nome": "Teste",
   "email":
-

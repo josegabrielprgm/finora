@@ -1,4 +1,4 @@
-package br.com.finora.api.auth.dto.response;
+package br.com.finora.api.usuario.dto.response;
 
 import br.com.finora.api.usuario.entity.Usuario;
 
@@ -9,7 +9,7 @@ public record UsuarioResponse(
         String nome,
         String email
 ) {
-    public static UsuarioResponse converter(Usuario usuario){
+    public static UsuarioResponse converter(Usuario usuario) {
         return new UsuarioResponse(
                 usuario.getId(),
                 usuario.getNome(),
