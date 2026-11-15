@@ -38,6 +38,33 @@ Content-Type: application/json
   "senha": "OutraSenha123"
 }
 
+### Login válido (esperado: 200 com accessToken)
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "jose@finora.com",
+  "senha": "SenhaForte123"
+}
+
+### Login com senha errada (esperado: 401)
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "jose@finora.com",
+  "senha": "SenhaErrada"
+}
+
+### Login com e-mail inexistente (esperado: 401, mesma resposta da senha errada)
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "ninguem@finora.com",
+  "senha": "SenhaForte123"
+}
+
 ### JSON malformado (esperado: 400)
 POST http://localhost:8080/api/auth/cadastro
 Content-Type: application/json
@@ -45,3 +72,4 @@ Content-Type: application/json
 {
   "nome": "Teste",
   "email":
+
