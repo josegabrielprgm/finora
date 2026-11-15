@@ -3,7 +3,7 @@
 Controle financeiro pessoal com autenticação segura. Projeto pessoal de aprendizado e portfólio.
 
 ## Stack
-- **Back-end:** Spring Boot 4 + Spring Security (JWT com refresh token, em construção), Maven, Java 21
+- **Back-end:** Spring Boot 4 + Spring Security (JWT access token pronto; refresh token pendente) via `spring-boot-starter-oauth2-resource-server`, Maven, Java 21
 - **Banco:** PostgreSQL 17 (via Docker Compose) + Flyway (migrations)
 - **Front-end:** Angular 22 + Angular Material 3 (SCSS, sem SSR), deploy no Vercel
   - PrimeNG foi removido: a partir da v22 ele exige chave de licença. Não reintroduzir.
@@ -36,11 +36,21 @@ Cada feature tem `pages/` (telas ligadas a rotas) e, se precisar, `components/` 
 - Pacote base: `br.com.finora.api`
 - Organização **por funcionalidade** (`auth/`, `usuario/`...), cada uma com as subpastas que precisar:
   `controller/`, `service/`, `repository/`, `entity/`, `dto/request/`, `dto/response/`, `exception/`
-- `shared/`: código usado por várias funcionalidades (ex.: `shared/exception/`); `config/`: configurações (ex.: `SecurityConfig`)
-- Banco: PostgreSQL sobe sozinho pelo `spring-boot-docker-compose` (`backend/compose.yaml`). Credenciais no `backend/.env` (copiado do `.env.example`, nunca commitado). Os testes também sobem o compose: Docker Desktop precisa estar aberto
+- `shared/`: código usado por várias funcionalidades (ex.: `shared/exception/`); `config/`: configurações (`SecurityConfig`, `JwtConfig`, `JwtProperties`)
+- Banco: PostgreSQL sobe sozinho pelo `spring-boot-docker-compose` (`backend/compose.yaml`). Credenciais e `JWT_SECRET` no `backend/.env` (copiado do `.env.example`, nunca commitado), lido pelo Spring via `spring.config.import: optional:file:.env[.properties]`. Os testes também sobem o compose: Docker Desktop precisa estar aberto
 - Migrations Flyway em `src/main/resources/db/migration` (`V1__cria_tabela_usuarios.sql`...). Hibernate com `ddl-auto: validate`: o schema só muda por migration
 - Testes manuais da API em `backend/http/auth.http` (HTTP Client do IntelliJ)
-- Endpoints atuais: `POST /api/auth/cadastro` (público); todo o resto exige autenticação
+- Endpoints atuais:
+  - `POST /api/auth/cadastro` e `POST /api/auth/login` (públicos)
+  - `GET /api/usuarios/eu` (exige token): dados do dono do token
+  - todo o resto exige `Authorization: Bearer <token>`
+
+### JWT
+- `JwtConfig`: `JwtEncoder`/`JwtDecoder` Nimbus com HS256; a chave vem do `JWT_SECRET` (Base64, mínimo 32 bytes, checado ao subir)
+- `JwtProperties` (`finora.jwt.segredo`, `finora.jwt.expiracao` = 15m) com `@ConfigurationProperties`
+- `TokenService.gerar`: claims `iss=finora-api`, `sub`=UUID do usuário, `perfil`, `iat`, `exp`. Nunca colocar dado sensível no token (ele é legível)
+- `AuthService.autenticar`: resposta genérica 401 (`CredenciaisInvalidasException`) para e-mail inexistente e senha errada, com hash fictício para o tempo ser igual (anti timing attack)
+- O id do usuário logado vem sempre do token (`@AuthenticationPrincipal Jwt` → `getSubject()`), nunca da URL (anti IDOR)
 
 ### Padrões de código do back-end
 - Exceções de negócio herdam de `NegocioException`, passando o status HTTP no construtor (ex.: `EmailJaCadastradoException` → 409)
@@ -49,7 +59,8 @@ Cada feature tem `pages/` (telas ligadas a rotas) e, se precisar, `components/` 
 - Injeção de dependência pelo construtor, com campos `final` (sem `@Autowired` em campo)
 - Guardar o resultado numa variável antes de retornar (`UsuarioResponse resposta = ...; return resposta;`), para facilitar debug
 - Testes com `@DisplayName` descrevendo a regra ("Deve salvar a senha com hash") e nome do método sem preposição (`cadastrarSalvaHash`, `cadastrarResponde409`)
-  - Service: teste unitário com Mockito; controller: `@WebMvcTest` + `@Import(SecurityConfig.class)`
+  - Service: teste unitário com Mockito; controller: `@WebMvcTest` + `@Import(SecurityConfig.class)` + `@MockitoBean JwtDecoder`
+  - Rotas protegidas: simular usuário logado com `.with(jwt().jwt(t -> t.subject(...)))` e sempre testar o 401 sem token
 
 ## Funcionalidades
 - **v1:** cadastro e login, receitas e despesas, categorias, saldo do mês e total por categoria, cada usuário vê só os próprios dados
@@ -59,7 +70,8 @@ Cada feature tem `pages/` (telas ligadas a rotas) e, se precisar, `components/` 
 BCrypt para senhas, JWT com access token curto + refresh token com rotação, perfis USER/ADMIN, proteção contra IDOR, rate limiting no login, Bean Validation, CORS restrito, segredos só em variáveis de ambiente (nunca commitar `.env` ou `application-local.yml`).
 
 No back:
-- E-mail normalizado (trim + minúsculas) antes de salvar e de checar duplicidade
+- E-mail normalizado (trim + minúsculas) antes de salvar, de checar duplicidade e de fazer login
+- Login sem enumeração de usuários (mesma mensagem e mesmo tempo de resposta)
 - API stateless (sem sessão), CSRF/form login/HTTP Basic desligados
 
 No front:
@@ -115,4 +127,6 @@ No front:
 - [x] Back-end: cadastro de usuário com senha em BCrypt
 - [x] Back-end: tratamento global de erros com ProblemDetail
 - [x] Back-end: testes do cadastro (service e controller)
-- [ ] Próximo: login com JWT (access token + refresh token)
+- [x] Back-end: login com JWT (access token), API protegida e `GET /api/usuarios/eu`, com testes
+- [ ] Próximo: integrar o front-end com a API (sair do mock)
+- [ ] Depois: refresh token com rotação, deploy do back-end
