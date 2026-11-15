@@ -101,13 +101,61 @@ docs: atualiza README
 
 ---
 
+## 🌐 Demo
+
+**[finora-opal.vercel.app](https://finora-opal.vercel.app)**
+
+| Usuário de teste | |
+|---|---|
+| E-mail | `demo@finora.com` |
+| Senha | `Senha@123` |
+
+> ⚠️ A demo publicada é só o front-end e ainda usa **dados simulados** (mock): o login e as transações não passam pela API. A integração com o back-end vem nas próximas versões.
+
+---
+
 ## 🚀 Como executar
 
-> Em breve, assim que a primeira versão da API estiver pronta.
+### Pré-requisitos
+- [Java 21](https://adoptium.net/)
+- [Node.js](https://nodejs.org/) (com npm)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) aberto
+
+### Back-end
+
+```powershell
+cd backend
+copy .env.example .env      # depois abra o .env e preencha DB_PASSWORD
+.\mvnw spring-boot:run
+```
+
+O PostgreSQL sobe sozinho via Docker Compose (`compose.yaml`) e o Flyway cria as tabelas. A API fica em `http://localhost:8080`.
+
+### Front-end
+
+```powershell
+cd frontend
+npm install
+ng serve
+```
+
+Acesse `http://localhost:4200`. Sem o Angular CLI instalado globalmente, use `npx ng serve`.
+
+### Testes
+
+```powershell
+# back-end (precisa do Docker Desktop aberto)
+cd backend
+.\mvnw test
+
+# front-end
+cd frontend
+ng test
+```
 
 ---
 
 ## 👤 Autor
 
 **José Gabriel**
-[GitHub](https://github.com/josegabrielprgm) · [LinkedIn](https://linkedin.com/in/SEU-PERFIL)
+[GitHub](https://github.com/josegabrielprgm)
