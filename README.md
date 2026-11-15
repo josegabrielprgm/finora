@@ -45,13 +45,13 @@ O projeto também segue práticas de times profissionais: fluxo de branches, com
 
 | Prática | Por quê | Status |
 |---|---|---|
-| Senhas com hash **BCrypt** | Mesmo com vazamento do banco, as senhas não ficam expostas | ⏳ |
+| Senhas com hash **BCrypt** | Mesmo com vazamento do banco, as senhas não ficam expostas | ✅ |
 | **JWT** com access token de curta duração | Reduz o estrago caso um token seja roubado | ⏳ |
 | **Refresh token** com rotação | Mantém o usuário logado sem tokens de vida longa | ⏳ |
 | Autorização por perfil (**USER / ADMIN**) | Cada um acessa só o que pode | ⏳ |
 | Proteção contra **IDOR** | Um usuário não consegue ler dados de outro trocando o ID na URL | ⏳ |
 | **Rate limiting** no login | Dificulta ataques de força bruta | ⏳ |
-| Validação de entrada (**Bean Validation**) | Bloqueia dados inválidos ou maliciosos | ⏳ |
+| Validação de entrada (**Bean Validation**) | Bloqueia dados inválidos ou maliciosos | ✅ |
 | **CORS** restrito | Só o front-end autorizado chama a API | ⏳ |
 | Segredos em **variáveis de ambiente** | Nenhuma senha ou chave vai para o repositório | ✅ |
 
