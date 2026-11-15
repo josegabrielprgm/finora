@@ -7,7 +7,7 @@
 Registre receitas e despesas, organize por categorias e acompanhe seu saldo, com seus dados protegidos por autenticação JWT, senhas com hash e acesso isolado por usuário.
 
 ![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F?logo=springboot&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4-6DB33F?logo=springboot&logoColor=white)
 ![Spring Security](https://img.shields.io/badge/Spring_Security-JWT-6DB33F?logo=springsecurity&logoColor=white)
 ![Angular](https://img.shields.io/badge/Angular-Material-DD0031?logo=angular)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
@@ -28,7 +28,7 @@ O projeto também segue práticas de times profissionais: fluxo de branches, com
 ## ✨ Funcionalidades
 
 ### Versão 1
-- [ ] Cadastro e login de usuários
+- [x] Cadastro e login de usuários
 - [ ] Registro de receitas e despesas
 - [ ] Categorias personalizadas
 - [ ] Saldo do mês e total por categoria
@@ -46,14 +46,16 @@ O projeto também segue práticas de times profissionais: fluxo de branches, com
 | Prática | Por quê | Status |
 |---|---|---|
 | Senhas com hash **BCrypt** | Mesmo com vazamento do banco, as senhas não ficam expostas | ✅ |
-| **JWT** com access token de curta duração | Reduz o estrago caso um token seja roubado | ⏳ |
+| **JWT** com access token de curta duração | Reduz o estrago caso um token seja roubado | ✅ |
 | **Refresh token** com rotação | Mantém o usuário logado sem tokens de vida longa | ⏳ |
 | Autorização por perfil (**USER / ADMIN**) | Cada um acessa só o que pode | ⏳ |
-| Proteção contra **IDOR** | Um usuário não consegue ler dados de outro trocando o ID na URL | ⏳ |
+| Proteção contra **IDOR** | Um usuário não consegue ler dados de outro trocando o ID na URL | ✅ |
 | **Rate limiting** no login | Dificulta ataques de força bruta | ⏳ |
 | Validação de entrada (**Bean Validation**) | Bloqueia dados inválidos ou maliciosos | ✅ |
 | **CORS** restrito | Só o front-end autorizado chama a API | ⏳ |
 | Segredos em **variáveis de ambiente** | Nenhuma senha ou chave vai para o repositório | ✅ |
+| Login sem **enumeração de usuários** | Mesma resposta (e mesmo tempo) para e-mail inexistente e senha errada | ✅ |
+| Erros sem detalhes internos (**ProblemDetail**) | O usuário vê mensagens genéricas; o detalhe técnico fica só no log | ✅ |
 
 ---
 
@@ -89,7 +91,8 @@ Registro das principais escolhas e o motivo de cada uma:
 
 - `main`: código estável
 - `develop`: integração das funcionalidades
-- `feature/*`: uma branch por funcionalidade, sempre saindo da `develop`
+- `feature/*`, `fix/*`, `docs/*`, `test/*`, `chore/*`: uma branch por tarefa, sempre saindo da `develop`
+- Cada tarefa entra na `develop` por Pull Request com **Squash and merge**; a `main` é protegida e recebe as releases
 
 Commits seguem o padrão [Conventional Commits](https://www.conventionalcommits.org/pt-br/):
 
@@ -125,11 +128,19 @@ docs: atualiza README
 
 ```powershell
 cd backend
-copy .env.example .env      # depois abra o .env e preencha DB_PASSWORD
+copy .env.example .env      # depois abra o .env e preencha DB_PASSWORD e JWT_SECRET
 .\mvnw spring-boot:run
 ```
 
 O PostgreSQL sobe sozinho via Docker Compose (`compose.yaml`) e o Flyway cria as tabelas. A API fica em `http://localhost:8080`.
+
+Para gerar um `JWT_SECRET` aleatório (mínimo de 32 bytes), no PowerShell:
+
+```powershell
+[Convert]::ToBase64String((1..48 | ForEach-Object { Get-Random -Maximum 256 }))
+```
+
+Requisições prontas para testar a API manualmente ficam em `backend/http/auth.http` (cliente HTTP do IntelliJ).
 
 ### Front-end
 
