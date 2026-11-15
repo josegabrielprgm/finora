@@ -25,5 +25,7 @@ public class AuthController {
         UsuarioResponse resposta = UsuarioResponse.converter(usuario);
         return resposta;
     }
+
+
 }
 
