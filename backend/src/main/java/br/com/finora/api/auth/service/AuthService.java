@@ -5,11 +5,13 @@ import br.com.finora.api.auth.exception.CredenciaisInvalidasException;
 import br.com.finora.api.usuario.entity.Usuario;
 import br.com.finora.api.usuario.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
 import java.util.Optional;
 
+@Service
 public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
@@ -17,11 +19,11 @@ public class AuthService {
     private final TokenService tokenService;
     private final String hashFicticio;
 
-    public AuthService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, TokenService tokenService, String hashFicticio) {
+    public AuthService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
-        this.hashFicticio = hashFicticio;
+        this.hashFicticio = passwordEncoder.encode("senha-ficticia-para-tempo-constante");
     }
 
     @Transactional(readOnly = true)
