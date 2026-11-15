@@ -2,12 +2,14 @@ package br.com.finora.api.usuario.service;
 
 import br.com.finora.api.usuario.entity.Usuario;
 import br.com.finora.api.usuario.exception.EmailJaCadastradoException;
+import br.com.finora.api.usuario.exception.UsuarioNaoEncontradoException;
 import br.com.finora.api.usuario.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
+import java.util.UUID;
 
 @Service
 public class UsuarioService {
@@ -20,14 +22,20 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional(readOnly = true)
+    public Usuario buscar(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(UsuarioNaoEncontradoException::new);
+    }
+
     @Transactional
-    public Usuario cadastrar(String nome, String email, String senha){
+    public Usuario cadastrar(String nome, String email, String senha) {
         String emailNormalizado = email.trim().toLowerCase(Locale.ROOT);
-        if (repository.existsByEmail(emailNormalizado)){
+        if (repository.existsByEmail(emailNormalizado)) {
             throw new EmailJaCadastradoException();
         }
         String senhaHash = passwordEncoder.encode(senha);
-        Usuario usuarioSalvo  = repository.save(new Usuario(nome.trim(), emailNormalizado, senhaHash));
+        Usuario usuarioSalvo = repository.save(new Usuario(nome.trim(), emailNormalizado, senhaHash));
         return usuarioSalvo;
     }
 }

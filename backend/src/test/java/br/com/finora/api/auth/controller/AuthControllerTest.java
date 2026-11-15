@@ -1,5 +1,8 @@
 package br.com.finora.api.auth.controller;
 
+import br.com.finora.api.auth.dto.response.TokenResponse;
+import br.com.finora.api.auth.exception.CredenciaisInvalidasException;
+import br.com.finora.api.auth.service.AuthService;
 import br.com.finora.api.config.SecurityConfig;
 import br.com.finora.api.usuario.entity.Usuario;
 import br.com.finora.api.usuario.exception.EmailJaCadastradoException;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -28,6 +32,12 @@ class AuthControllerTest {
 
     @MockitoBean
     private UsuarioService usuarioService;
+
+    @MockitoBean
+    private AuthService authService;
+
+    @MockitoBean
+    private JwtDecoder jwtDecoder;
 
     @Test
     @DisplayName("Deve cadastrar e responder 201 sem expor a senha")
@@ -81,5 +91,40 @@ class AuthControllerTest {
                         .content(corpo))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.detail").value("Este e-mail já está cadastrado."));
+    }
+
+    @Test
+    @DisplayName("Deve fazer login e responder 200 com o token")
+    void entrarResponde200() throws Exception {
+        TokenResponse token = new TokenResponse("token-gerado", "Bearer", 900);
+        when(authService.autenticar(any(), any())).thenReturn(token);
+
+        String corpo = """
+                {"email": "jose@finora.com", "senha": "SenhaForte123"}
+                """;
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(corpo))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken").value("token-gerado"))
+                .andExpect(jsonPath("$.tipo").value("Bearer"))
+                .andExpect(jsonPath("$.expiraEm").value(900));
+    }
+
+    @Test
+    @DisplayName("Deve responder 401 com mensagem genérica para credenciais inválidas")
+    void entrarResponde401() throws Exception {
+        when(authService.autenticar(any(), any())).thenThrow(new CredenciaisInvalidasException());
+
+        String corpo = """
+                {"email": "jose@finora.com", "senha": "SenhaErrada"}
+                """;
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(corpo))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.detail").value("E-mail ou senha inválidos."));
     }
 }
