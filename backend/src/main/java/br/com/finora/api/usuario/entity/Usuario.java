@@ -30,6 +30,7 @@ public class Usuario {
     private Instant criadoEm;
 
     protected Usuario() {
+        // exigido pelo JPA
     }
 
     public Usuario(String nome, String email, String senhaHash) {

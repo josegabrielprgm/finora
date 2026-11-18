@@ -29,6 +29,6 @@ public class UsuarioController {
         UUID id = UUID.fromString(jwt.getSubject());
         Usuario usuario = usuarioService.buscar(id);
 
-        return mapper.toResponse(usuario);
+        return mapper.converter(usuario);
     }
 }

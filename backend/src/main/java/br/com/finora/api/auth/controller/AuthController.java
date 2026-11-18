@@ -30,7 +30,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioResponse cadastrar(@Valid @RequestBody CadastroRequest request) {
         Usuario usuario = usuarioService.cadastrar(request.nome(), request.email(), request.senha());
-        return usuarioMapper.toResponse(usuario);
+        return usuarioMapper.converter(usuario);
     }
 
 
