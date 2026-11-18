@@ -3,7 +3,7 @@
 Controle financeiro pessoal com autenticação segura. Projeto pessoal de aprendizado e portfólio.
 
 ## Stack
-- **Back-end:** Spring Boot 4 + Spring Security (JWT access token pronto; refresh token pendente) via `spring-boot-starter-oauth2-resource-server`, Maven, Java 21
+- **Back-end:** Spring Boot 4 + Spring Security (JWT access token pronto; refresh token pendente) via `spring-boot-starter-oauth2-resource-server`, MapStruct 1.6.3, Maven, Java 21
 - **Banco:** PostgreSQL 17 (via Docker Compose) + Flyway (migrations)
 - **Front-end:** Angular 22 + Angular Material 3 (SCSS, sem SSR), deploy no Vercel
   - PrimeNG foi removido: a partir da v22 ele exige chave de licença. Não reintroduzir.
@@ -56,10 +56,12 @@ Cada feature tem `pages/` (telas ligadas a rotas) e, se precisar, `components/` 
 - Exceções de negócio herdam de `NegocioException`, passando o status HTTP no construtor (ex.: `EmailJaCadastradoException` → 409)
 - Erros sempre no formato **ProblemDetail**, centralizados no `TratadorGlobalErros` (`@RestControllerAdvice`). Erros de validação trazem a propriedade `campos`; erros inesperados viram 500 genérico, sem vazar detalhes
 - DTOs como `record`, com Bean Validation no request; o response nunca expõe senha/hash
+- Conversão entidade → DTO com MapStruct: interface em `<funcionalidade>/mapper/` com `@Mapper(componentModel = "spring")`, método chamado `converter`. O mapper só copia dados; regra de negócio fica no service
 - Injeção de dependência pelo construtor, com campos `final` (sem `@Autowired` em campo)
 - Guardar o resultado numa variável antes de retornar (`UsuarioResponse resposta = ...; return resposta;`), para facilitar debug
 - Testes com `@DisplayName` descrevendo a regra ("Deve salvar a senha com hash") e nome do método sem preposição (`cadastrarSalvaHash`, `cadastrarResponde409`)
   - Service: teste unitário com Mockito; controller: `@WebMvcTest` + `@Import(SecurityConfig.class)` + `@MockitoBean JwtDecoder`
+  - Nos testes `@WebMvcTest`, importar a implementação gerada do mapper (ex.: `@Import({SecurityConfig.class, UsuarioMapperImpl.class})`) em vez de mockar, para os testes continuarem conferindo os campos da resposta
   - Rotas protegidas: simular usuário logado com `.with(jwt().jwt(t -> t.subject(...)))` e sempre testar o 401 sem token
 
 ## Funcionalidades
