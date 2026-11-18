@@ -1,7 +1,5 @@
 package br.com.finora.api.usuario.dto.response;
 
-import br.com.finora.api.usuario.entity.Usuario;
-
 import java.util.UUID;
 
 public record UsuarioResponse(
@@ -9,11 +7,4 @@ public record UsuarioResponse(
         String nome,
         String email
 ) {
-    public static UsuarioResponse converter(Usuario usuario) {
-        return new UsuarioResponse(
-                usuario.getId(),
-                usuario.getNome(),
-                usuario.getEmail()
-        );
-    }
 }

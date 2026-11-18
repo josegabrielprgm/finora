@@ -6,6 +6,7 @@ import br.com.finora.api.auth.service.AuthService;
 import br.com.finora.api.config.SecurityConfig;
 import br.com.finora.api.usuario.entity.Usuario;
 import br.com.finora.api.usuario.exception.EmailJaCadastradoException;
+import br.com.finora.api.usuario.mapper.UsuarioMapperImpl;
 import br.com.finora.api.usuario.service.UsuarioService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, UsuarioMapperImpl.class})
 class AuthControllerTest {
 
     @Autowired
