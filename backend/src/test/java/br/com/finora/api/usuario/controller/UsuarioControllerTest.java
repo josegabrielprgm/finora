@@ -2,6 +2,7 @@ package br.com.finora.api.usuario.controller;
 
 import br.com.finora.api.config.SecurityConfig;
 import br.com.finora.api.usuario.entity.Usuario;
+import br.com.finora.api.usuario.mapper.UsuarioMapperImpl;
 import br.com.finora.api.usuario.service.UsuarioService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UsuarioController.class)
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, UsuarioMapperImpl.class})
 class UsuarioControllerTest {
 
     @Autowired

@@ -30,7 +30,6 @@ public class Usuario {
     private Instant criadoEm;
 
     protected Usuario() {
-        // exigido pelo JPA
     }
 
     public Usuario(String nome, String email, String senhaHash) {
@@ -41,10 +40,27 @@ public class Usuario {
         this.criadoEm = Instant.now();
     }
 
-    public UUID getId() { return id; }
-    public String getNome() { return nome; }
-    public String getEmail() { return email; }
-    public String getSenhaHash() { return senhaHash; }
-    public Perfil getPerfil() { return perfil; }
-    public Instant getCriadoEm() { return criadoEm; }
+    public UUID getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getSenhaHash() {
+        return senhaHash;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public Instant getCriadoEm() {
+        return criadoEm;
+    }
 }

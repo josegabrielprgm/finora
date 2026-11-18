@@ -6,6 +6,7 @@ import br.com.finora.api.auth.dto.response.TokenResponse;
 import br.com.finora.api.auth.service.AuthService;
 import br.com.finora.api.usuario.dto.response.UsuarioResponse;
 import br.com.finora.api.usuario.entity.Usuario;
+import br.com.finora.api.usuario.mapper.UsuarioMapper;
 import br.com.finora.api.usuario.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,18 +18,19 @@ public class AuthController {
 
     private final UsuarioService usuarioService;
     private final AuthService authService;
+    private final UsuarioMapper usuarioMapper;
 
-    public AuthController(UsuarioService usuarioService, AuthService authService) {
+    public AuthController(UsuarioService usuarioService, AuthService authService, UsuarioMapper usuarioMapper) {
         this.usuarioService = usuarioService;
         this.authService = authService;
+        this.usuarioMapper = usuarioMapper;
     }
 
     @PostMapping("/cadastro")
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioResponse cadastrar(@Valid @RequestBody CadastroRequest request) {
         Usuario usuario = usuarioService.cadastrar(request.nome(), request.email(), request.senha());
-        UsuarioResponse resposta = UsuarioResponse.converter(usuario);
-        return resposta;
+        return usuarioMapper.toResponse(usuario);
     }
 
 
