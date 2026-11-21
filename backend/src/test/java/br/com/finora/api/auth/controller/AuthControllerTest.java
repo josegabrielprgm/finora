@@ -3,7 +3,7 @@ package br.com.finora.api.auth.controller;
 import br.com.finora.api.auth.dto.response.TokenResponse;
 import br.com.finora.api.auth.exception.CredenciaisInvalidasException;
 import br.com.finora.api.auth.service.AuthService;
-import br.com.finora.api.config.SecurityConfig;
+import br.com.finora.api.config.security.SecurityConfig;
 import br.com.finora.api.usuario.entity.Usuario;
 import br.com.finora.api.usuario.exception.EmailJaCadastradoException;
 import br.com.finora.api.usuario.mapper.UsuarioMapperImpl;

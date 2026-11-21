@@ -1,6 +1,6 @@
 package br.com.finora.api.usuario.controller;
 
-import br.com.finora.api.config.SecurityConfig;
+import br.com.finora.api.config.security.SecurityConfig;
 import br.com.finora.api.usuario.entity.Usuario;
 import br.com.finora.api.usuario.mapper.UsuarioMapperImpl;
 import br.com.finora.api.usuario.service.UsuarioService;

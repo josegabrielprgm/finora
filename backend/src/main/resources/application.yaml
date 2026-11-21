@@ -16,3 +16,5 @@ finora:
   jwt:
     segredo: ${JWT_SECRET}
     expiracao: 15m
+  cors:
+    origens-permitidas: ${CORS_ORIGENS:http://localhost:4200}

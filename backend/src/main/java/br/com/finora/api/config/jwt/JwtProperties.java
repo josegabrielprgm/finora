@@ -1,4 +1,4 @@
-package br.com.finora.api.config;
+package br.com.finora.api.config.jwt;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -1,4 +1,4 @@
-package br.com.finora.api.config;
+package br.com.finora.api.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

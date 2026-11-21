@@ -36,7 +36,9 @@ Cada feature tem `pages/` (telas ligadas a rotas) e, se precisar, `components/` 
 - Pacote base: `br.com.finora.api`
 - Organização **por funcionalidade** (`auth/`, `usuario/`...), cada uma com as subpastas que precisar:
   `controller/`, `service/`, `repository/`, `entity/`, `dto/request/`, `dto/response/`, `exception/`
-- `shared/`: código usado por várias funcionalidades (ex.: `shared/exception/`); `config/`: configurações (`SecurityConfig`, `JwtConfig`, `JwtProperties`)
+- `shared/`: código usado por várias funcionalidades (ex.: `shared/exception/`); `config/`: configurações, uma subpasta por assunto (`config/security/SecurityConfig`, `config/jwt/JwtConfig` e `JwtProperties`, `config/cors/CorsConfig` e `CorsProperties`)
+- Propriedades do projeto sempre com o prefixo `finora.` e nomes em português; valor padrão só no `application.yaml` (sem `@DefaultValue` no record)
+- CORS: origens permitidas em `finora.cors.origens-permitidas`, vindas da variável `CORS_ORIGENS` (padrão `http://localhost:4200`; várias origens separadas por vírgula). Sem `allowCredentials`: o token vai no cabeçalho `Authorization`, não em cookie
 - Banco: PostgreSQL sobe sozinho pelo `spring-boot-docker-compose` (`backend/compose.yaml`). Credenciais e `JWT_SECRET` no `backend/.env` (copiado do `.env.example`, nunca commitado), lido pelo Spring via `spring.config.import: optional:file:.env[.properties]`. Os testes também sobem o compose: Docker Desktop precisa estar aberto
 - Migrations Flyway em `src/main/resources/db/migration` (`V1__cria_tabela_usuarios.sql`...). Hibernate com `ddl-auto: validate`: o schema só muda por migration
 - Testes manuais da API em `backend/http/auth.http` (HTTP Client do IntelliJ)

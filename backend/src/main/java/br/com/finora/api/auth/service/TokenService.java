@@ -1,7 +1,7 @@
 package br.com.finora.api.auth.service;
 
 import br.com.finora.api.auth.dto.response.TokenResponse;
-import br.com.finora.api.config.JwtProperties;
+import br.com.finora.api.config.jwt.JwtProperties;
 import br.com.finora.api.usuario.entity.Usuario;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;

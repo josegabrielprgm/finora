@@ -1,4 +1,4 @@
-package br.com.finora.api.config;
+package br.com.finora.api.config.jwt;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import org.springframework.context.annotation.Bean;
