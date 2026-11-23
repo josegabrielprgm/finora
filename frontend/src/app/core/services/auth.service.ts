@@ -31,6 +31,8 @@ export class AuthService {
   private readonly usuario = signal<Usuario | null>(null);
 
   readonly usuarioAtual = this.usuario.asReadonly();
+  /** Access token atual (só leitura), usado pelo authInterceptor. */
+  readonly accessToken = this.token.asReadonly();
   readonly autenticado = computed(() => this.token() !== null);
 
   entrar(credenciais: CredenciaisLogin): Observable<RespostaLogin> {
